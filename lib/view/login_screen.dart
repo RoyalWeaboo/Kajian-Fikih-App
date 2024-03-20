@@ -8,6 +8,8 @@ import 'package:kajian_fikih/utils/widgets/custom_button.dart';
 import 'package:kajian_fikih/view/jamaah/dashboard/dashboard_screen.dart';
 import 'package:kajian_fikih/view/register_sceen.dart';
 import 'package:kajian_fikih/view/ustadz/dashboard/ustadz_dashboard_screen.dart';
+import 'package:kajian_fikih/viewmodel/form_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,6 +22,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final loginFormKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  void _handlePasswordVisibilityToggle() {
+    context.read<FormProvider>().changePasswordVisibility();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,37 +116,50 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(
                               height: 16,
                             ),
-                            TextFormField(
-                              controller: _passwordController,
-                              validator: ((value) => validateEmail(value!)),
-                              keyboardType: TextInputType.emailAddress,
-                              textInputAction: TextInputAction.next,
-                              style: GoogleFonts.outfit(
-                                fontSize: 14,
-                                color: primaryColor,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              cursorColor: secondaryColor,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                counterText: "",
-                                hintText: "Password",
-                                labelStyle: GoogleFonts.outfit(
+                            Consumer<FormProvider>(
+                              builder: (BuildContext context,
+                                  FormProvider value, Widget? child) {
+                                return TextFormField(
+                                  controller: _passwordController,
+                                  obscureText: value.isHidden,
+                                  validator: ((value) =>
+                                      validatePassword(value!)),
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.next,
+                                  style: GoogleFonts.outfit(
                                     fontSize: 14,
                                     color: primaryColor,
-                                    fontWeight: FontWeight.w400),
-                                filled: true,
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.never,
-                                fillColor: whiteColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(
-                                    width: 1,
-                                    color: primaryColor,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                ),
-                              ),
+                                  cursorColor: secondaryColor,
+                                  decoration: InputDecoration(
+                                    suffixIcon: InkWell(
+                                      onTap: _handlePasswordVisibilityToggle,
+                                      child: Icon(
+                                        size: 20,
+                                        value.isHidden
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                    ),
+                                    isDense: true,
+                                    counterText: "",
+                                    hintText: "Password",
+                                    labelStyle: GoogleFonts.outfit(
+                                        fontSize: 14,
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.w400),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: whiteColor,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: const BorderSide(width: 1),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                             Align(
                               alignment: Alignment.topRight,

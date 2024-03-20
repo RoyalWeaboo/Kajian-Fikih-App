@@ -37,6 +37,7 @@ flutter:
     - assets/sharp_polygon.png
     - assets/google_login_button.png
     - assets/dashboard_background.png
+    - assets/timer_background.png
     - assets/notifications.png
     - assets/hadist.png
     - assets/quran.png

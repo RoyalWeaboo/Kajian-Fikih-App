@@ -24,6 +24,14 @@ class _UstadzEditProfileScreenState extends State<UstadzEditProfileScreen> {
   final _confirmPassTextController = TextEditingController();
   final _descriptionTextController = TextEditingController();
 
+  void _handlePasswordVisibilityToggle() {
+    context.read<FormProvider>().changePasswordVisibility();
+  }
+
+  void _handleConfirmPasswordVisibilityToggle() {
+    context.read<FormProvider>().changeConfirmPasswordVisibility();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -244,77 +252,102 @@ class _UstadzEditProfileScreenState extends State<UstadzEditProfileScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            TextFormField(
-                              controller: _passTextController,
-                              validator: ((value) => validatePassword(value!)),
-                              keyboardType: TextInputType.text,
-                              style: GoogleFonts.outfit(
-                                fontSize: 14,
-                                color: blackColor,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              cursorColor: secondaryColor,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                counterText: "",
-                                hintText: "Password",
-                                labelStyle: GoogleFonts.outfit(
-                                  fontSize: 14,
-                                  color: primaryColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                filled: true,
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.never,
-                                fillColor: whiteColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    10,
-                                  ),
-                                  borderSide: const BorderSide(
-                                    width: 1,
+                            Consumer<FormProvider>(
+                              builder: (BuildContext context,
+                                  FormProvider value, Widget? child) {
+                                return TextFormField(
+                                  controller: _passTextController,
+                                  obscureText: value.isHidden,
+                                  validator: ((value) =>
+                                      validatePassword(value!)),
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.next,
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14,
                                     color: primaryColor,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                ),
-                              ),
+                                  cursorColor: secondaryColor,
+                                  decoration: InputDecoration(
+                                    suffixIcon: InkWell(
+                                      onTap: _handlePasswordVisibilityToggle,
+                                      child: Icon(
+                                        size: 20,
+                                        value.isHidden
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                    ),
+                                    isDense: true,
+                                    counterText: "",
+                                    hintText: "Password",
+                                    labelStyle: GoogleFonts.outfit(
+                                        fontSize: 14,
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.w400),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: whiteColor,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: const BorderSide(width: 1),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            TextFormField(
-                              controller: _confirmPassTextController,
-                              validator: ((value) => validateConfirmPassword(
-                                  value!, _passTextController.text)),
-                              keyboardType: TextInputType.text,
-                              style: GoogleFonts.outfit(
-                                fontSize: 14,
-                                color: blackColor,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              cursorColor: secondaryColor,
-                              decoration: InputDecoration(
-                                isDense: true,
-                                counterText: "",
-                                hintText: "Konfirmasi Password",
-                                labelStyle: GoogleFonts.outfit(
-                                  fontSize: 14,
-                                  color: primaryColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                filled: true,
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.never,
-                                fillColor: whiteColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    10,
-                                  ),
-                                  borderSide: const BorderSide(
-                                    width: 1,
+                            Consumer<FormProvider>(
+                              builder: (BuildContext context,
+                                  FormProvider value, Widget? child) {
+                                return TextFormField(
+                                  controller: _confirmPassTextController,
+                                  obscureText: value.isConfirmHidden,
+                                  validator: ((value) =>
+                                      validateConfirmPassword(
+                                        value!,
+                                        _passTextController.text,
+                                      )),
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.next,
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 14,
                                     color: primaryColor,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                ),
-                              ),
+                                  cursorColor: secondaryColor,
+                                  decoration: InputDecoration(
+                                    suffixIcon: InkWell(
+                                      onTap:
+                                          _handleConfirmPasswordVisibilityToggle,
+                                      child: Icon(
+                                        size: 20,
+                                        value.isConfirmHidden
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                    ),
+                                    isDense: true,
+                                    counterText: "",
+                                    hintText: "Konfirmasi Password",
+                                    labelStyle: GoogleFonts.outfit(
+                                        fontSize: 14,
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.w400),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: whiteColor,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: const BorderSide(width: 1),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                             const SizedBox(
                               height: 10,

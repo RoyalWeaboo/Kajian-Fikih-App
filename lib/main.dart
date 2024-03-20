@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kajian_fikih/view/splash_screen.dart';
 import 'package:kajian_fikih/viewmodel/bottom_navbar_provider.dart';
 import 'package:kajian_fikih/viewmodel/form_provider.dart';
+import 'package:kajian_fikih/viewmodel/question_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -13,6 +14,9 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (_) => FormProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => QuestionProvider(),
         ),
       ],
       child: const MyApp(),
