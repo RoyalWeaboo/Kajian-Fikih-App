@@ -4,6 +4,7 @@ class UserDetail {
   final String username;
   final String phone;
   final String email;
+  final String location;
   final String profilePictureUrl;
   final String role;
 
@@ -13,6 +14,7 @@ class UserDetail {
     required this.username,
     required this.phone,
     required this.email,
+    required this.location,
     required this.profilePictureUrl,
     required this.role,
   });
@@ -24,6 +26,7 @@ class UserDetail {
     data['username'] = username;
     data['phone'] = phone;
     data['email'] = email;
+    data['location'] = location;
     data['profilePictureUrl'] = profilePictureUrl;
     data['role'] = role;
     return data;
@@ -36,6 +39,7 @@ class UserDetail {
       username: json['username'],
       phone: json['phone'],
       email: json['email'],
+      location: json['location'],
       profilePictureUrl: json['profilePictureUrl'],
       role: json['role'],
     );

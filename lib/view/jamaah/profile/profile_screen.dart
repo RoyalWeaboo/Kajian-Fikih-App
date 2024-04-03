@@ -172,27 +172,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(
                       height: 4,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/location_icon.png",
-                          width: 16,
-                          fit: BoxFit.fitWidth,
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          "Location",
-                          style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: greyTextColor,
-                          ),
-                        ),
-                      ],
-                    ),
+                    state.userDetail.location != ""
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/location_icon.png",
+                                width: 16,
+                                fit: BoxFit.fitWidth,
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                state.userDetail.location,
+                                style: GoogleFonts.outfit(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  color: greyTextColor,
+                                ),
+                              ),
+                            ],
+                          )
+                        : const SizedBox(),
                     const SizedBox(
                       height: 16,
                     ),

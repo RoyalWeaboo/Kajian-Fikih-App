@@ -99,6 +99,7 @@ class AuthCubit extends Cubit<AuthState> {
     String email,
     String phone,
     String password,
+    String location,
     String profilePictureUrl,
     String role,
   ) async {
@@ -116,6 +117,7 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         username: username,
         phone: phone,
+        location: location,
         profilePictureUrl: profilePictureUrl,
         role: role,
       );

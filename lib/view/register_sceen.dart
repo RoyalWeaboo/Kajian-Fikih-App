@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kajian_fikih/utils/animations/slide_left.dart';
 import 'package:kajian_fikih/utils/constants/color.dart';
+import 'package:kajian_fikih/utils/constants/location.dart';
 import 'package:kajian_fikih/utils/validators/validator.dart';
 import 'package:kajian_fikih/utils/widgets/custom_button.dart';
 import 'package:kajian_fikih/view/jamaah/dashboard/dashboard_screen.dart';
@@ -240,6 +241,60 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   borderSide: const BorderSide(
                                     width: 1,
                                     color: primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                decoration: const ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                        8,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: whiteColor,
+                                      borderRadius: BorderRadius.circular(
+                                        10,
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                    ),
+                                    child: DropdownButton(
+                                      value: value.location,
+                                      items: Location.values.map((e) {
+                                        return DropdownMenuItem(
+                                          value: e,
+                                          child: Text(
+                                            e.name,
+                                            style: GoogleFonts.outfit(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: blackColor,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (Location? loc) {
+                                        value.location = loc!;
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
@@ -600,6 +655,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               _emailController.text,
                                               _phoneController.text,
                                               _passwordController.text,
+                                              value.location.toString(),
                                               "",
                                               "jamaah",
                                             );

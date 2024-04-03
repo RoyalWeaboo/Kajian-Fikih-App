@@ -20,6 +20,7 @@ class ProfileCubit extends Cubit<ProfileState> {
               username: currentUser.displayName ?? "username",
               phone: "",
               email: currentUser.email ?? "email",
+              location: "",
               profilePictureUrl: currentUser.photoURL ?? "",
               role: "jamaah",
             ),
