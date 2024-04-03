@@ -3,7 +3,7 @@ import 'package:kajian_fikih/utils/constants/location.dart';
 
 class FormProvider with ChangeNotifier {
   String _postType = "online";
-  String _role = "ustadz";
+  String _role = "jamaah";
   Location _location = Location.Semarang;
   bool _isHidden = true;
   bool _isConfirmHidden = true;

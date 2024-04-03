@@ -1,25 +1,48 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kajian_fikih/firebase_options.dart';
 import 'package:kajian_fikih/view/splash_screen.dart';
+import 'package:kajian_fikih/viewmodel/auth/auth_cubit.dart';
 import 'package:kajian_fikih/viewmodel/bottom_navbar_provider.dart';
 import 'package:kajian_fikih/viewmodel/form_provider.dart';
+import 'package:kajian_fikih/viewmodel/profile/profile_cubit.dart';
 import 'package:kajian_fikih/viewmodel/question_provider.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
-    MultiProvider(
+    MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => BottomNavbarComponentViewModel(),
+        BlocProvider(
+          create: (context) {
+            return AuthCubit();
+          },
         ),
-        ChangeNotifierProvider(
-          create: (_) => FormProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => QuestionProvider(),
+        BlocProvider(
+          create: (context) {
+            return ProfileCubit();
+          },
         ),
       ],
-      child: const MyApp(),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => BottomNavbarComponentViewModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => FormProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => QuestionProvider(),
+          ),
+        ],
+        child: const MyApp(),
+      ),
     ),
   );
 }

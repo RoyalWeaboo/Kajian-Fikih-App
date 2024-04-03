@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "312131039668",
+    "project_id": "kajian-fikih",
+    "storage_bucket": "kajian-fikih.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312131039668:android:a7ac9549b3d2a75ea982e1",
+        "android_client_info": {
+          "package_name": "com.example.kajian_fikih"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBldZu4gNsfzl_GGjQ5m-a83Ri6yW-hOQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
