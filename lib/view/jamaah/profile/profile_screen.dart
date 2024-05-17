@@ -8,12 +8,17 @@ import 'package:kajian_fikih/utils/animations/slide_left.dart';
 import 'package:kajian_fikih/utils/constants/color.dart';
 import 'package:kajian_fikih/utils/preferences/preferences_utils.dart';
 import 'package:kajian_fikih/utils/widgets/bottom_navbar.dart';
-import 'package:kajian_fikih/view/jamaah/dashboard/category_item.dart';
+import 'package:kajian_fikih/view/jamaah/offline_event/offline_event_detail_screen.dart';
 import 'package:kajian_fikih/view/jamaah/profile/edit_profile_screen.dart';
+import 'package:kajian_fikih/view/jamaah/profile/history_item.dart';
 import 'package:kajian_fikih/view/jamaah/profile/profile_option.dart';
-import 'package:kajian_fikih/view/login_screen.dart';
-import 'package:kajian_fikih/viewmodel/profile/profile_cubit.dart';
-import 'package:kajian_fikih/viewmodel/profile/profile_state.dart';
+import 'package:kajian_fikih/view/auth/login_screen.dart';
+import 'package:kajian_fikih/view/public/saved_post/saved_post_screen.dart';
+import 'package:kajian_fikih/view/public/security/change_password_screen.dart';
+import 'package:kajian_fikih/viewmodel/history/history_cubit.dart';
+import 'package:kajian_fikih/viewmodel/history/history_state.dart';
+import 'package:kajian_fikih/viewmodel/profile_jamaah/profile_cubit.dart';
+import 'package:kajian_fikih/viewmodel/profile_jamaah/profile_state.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -38,6 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final loginWithGoogle = preferencesUtils.getPreferencesBool("googleLogin");
 
     context.read<ProfileCubit>().getProfileDetail(loginWithGoogle ?? false);
+    context.read<HistoryCubit>().getLatestHistory();
   }
 
   @override
@@ -61,22 +67,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (BuildContext context, ProfileState state) {
-          if (state is LoadingState) {
-            showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return const Dialog(
-                  insetPadding: EdgeInsets.all(12),
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              },
-            );
-          }
           if (state is ProfileErrorState) {
             Navigator.pop(context);
             AnimatedSnackBar.material(
@@ -102,12 +92,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             );
           }
-
-          if (state is ProfileSuccessState) {
-            Navigator.pop(context);
-          }
         },
         builder: (BuildContext context, ProfileState state) {
+          if (state is LoadingState) {
+            return SizedBox(
+                height: height,
+                width: width,
+                child: const Center(child: CircularProgressIndicator()));
+          }
           if (state is ProfileSuccessState) {
             return Container(
               height: height,
@@ -139,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     state.userDetail.profilePictureUrl,
                                   )
                                 : Image.asset(
-                                    "assets/profile_placeholder.png",
+                                    "assets/profile_image_placeholder.jpg",
                                     width: 100,
                                     fit: BoxFit.fitWidth,
                                   ),
@@ -209,54 +201,110 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: width,
-                      height: 200,
-                      child: ListView(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        children: const [
-                          DashboardCategoryItem(
-                              backgroundImage: 'assets/sholat.png',
-                              title: 'Sholat',
-                              description:
-                                  'Lorem ipsum dolor sit amet consectetur.'),
-                          DashboardCategoryItem(
-                              backgroundImage: 'assets/silaturahmi.png',
-                              title: 'Silaturahmi',
-                              description:
-                                  'Lorem ipsum dolor sit amet consectetur.'),
-                          DashboardCategoryItem(
-                              backgroundImage: 'assets/quran.png',
-                              title: 'Al-Qur\'an',
-                              description:
-                                  'Lorem ipsum dolor sit amet consectetur.'),
-                          DashboardCategoryItem(
-                              backgroundImage: 'assets/hadist.png',
-                              title: 'Hadist',
-                              description:
-                                  'Lorem ipsum dolor sit amet consectetur.'),
-                        ],
-                      ),
+                    BlocBuilder<HistoryCubit, HistoryState>(
+                      builder: (context, HistoryState historyState) {
+                        if (historyState is HistoryLoadingState) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (historyState is HistoryErrorState) {
+                          return Text(historyState.errorMessage);
+                        }
+                        if (historyState is HistorySuccessState) {
+                          if (historyState.offlineEventHistory.isNotEmpty) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              width: width,
+                              height: 240,
+                              child: ListView.separated(
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(
+                                  width: 8,
+                                ),
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount:
+                                    historyState.offlineEventHistory.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return SizedBox(
+                                    height: 300,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          SlideLeftAnimation(
+                                            page: OfflineEventDetailScreen(
+                                                docId: historyState
+                                                    .offlineEventHistory[index]
+                                                    .docId),
+                                          ),
+                                        );
+                                      },
+                                      child: HistoryItem(
+                                          backgroundImage: historyState
+                                                  .offlineEventHistory[index]
+                                                  .imageUrl ??
+                                              "",
+                                          title: historyState
+                                              .offlineEventHistory[index]
+                                              .postTitle,
+                                          description: historyState
+                                              .offlineEventHistory[index]
+                                              .postContent),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          } else {
+                            return const Text("Tidak ada Riwayat");
+                          }
+                        } else {
+                          return const SizedBox(
+                            height: 100,
+                          );
+                        }
+                      },
                     ),
                     const SizedBox(
                       height: 8,
                     ),
-                    const ProfileItemOption(
-                      optionIcon: "assets/saved_icon.png",
-                      optionName: "Kajian Tersimpan",
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlideLeftAnimation(
+                            page: const SavedPostScreen(),
+                          ),
+                        );
+                      },
+                      child: const ProfileItemOption(
+                        optionIcon: "assets/saved_icon.png",
+                        optionName: "Post Tersimpan",
+                      ),
                     ),
-                    const ProfileItemOption(
-                      optionIcon: "assets/privacy_icon.png",
-                      optionName: "Kebijakan Privasi",
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          SlideLeftAnimation(
+                            page: const ChangePasswordScreen(),
+                          ),
+                        );
+                      },
+                      child: const ProfileItemOption(
+                        optionIcon: "assets/privacy_icon.png",
+                        optionName: "Ganti Password",
+                      ),
                     ),
                     const ProfileItemOption(
                       optionIcon: "assets/help_icon.png",
                       optionName: "Bantuan",
                     ),
                     InkWell(
-                      onTap: () {
-                        context.read<ProfileCubit>().logout();
+                      onTap: () async {
+                        await context.read<ProfileCubit>().logout();
+                        await preferencesUtils.removePreferences("role");
                       },
                       child: const ProfileItemOption(
                         optionIcon: "assets/logout_icon.png",
@@ -271,7 +319,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (state is ProfileErrorState) {
             return Center(child: Text(state.errorMessage));
           } else {
-            return const Center(child: Text("Something is wrong"));
+            return const SizedBox();
           }
         },
       ),

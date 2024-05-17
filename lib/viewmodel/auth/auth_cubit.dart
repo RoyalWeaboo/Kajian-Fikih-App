@@ -113,12 +113,13 @@ class AuthCubit extends Cubit<AuthState> {
       var collection = FirebaseFirestore.instance.collection('user');
       var userData = UserDetail(
         uid: user!.uid,
-        docId: collection.doc().id,
         email: email,
         username: username,
         phone: phone,
         location: location,
         profilePictureUrl: profilePictureUrl,
+        kajianCount: 0,
+        followerCount: 0,
         role: role,
       );
       await collection

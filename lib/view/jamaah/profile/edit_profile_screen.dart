@@ -76,7 +76,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   Positioned(
                                     top: 22,
                                     child: Image.asset(
-                                      "assets/profile_placeholder.png",
+                                      "assets/profile_image_placeholder.jpg",
                                       width: 100,
                                       fit: BoxFit.fitWidth,
                                     ),
