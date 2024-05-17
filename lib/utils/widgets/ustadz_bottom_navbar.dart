@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kajian_fikih/utils/animations/slide_left.dart';
 import 'package:kajian_fikih/utils/constants/color.dart';
-import 'package:kajian_fikih/view/jamaah/explore/explore_screen.dart';
-import 'package:kajian_fikih/view/jamaah/like/like_screen.dart';
+import 'package:kajian_fikih/view/public/explore/explore_screen.dart';
+import 'package:kajian_fikih/view/public/liked_post/liked_post_screen.dart';
 import 'package:kajian_fikih/view/ustadz/dashboard/ustadz_dashboard_screen.dart';
 import 'package:kajian_fikih/view/ustadz/profile/ustadz_profile_screen.dart';
 import 'package:kajian_fikih/viewmodel/bottom_navbar_provider.dart';
@@ -60,7 +60,9 @@ class _UstadzBottomNavbarComponentState
       case 3:
         Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
-            return const UstadzProfileScreen();
+            return const UstadzProfileScreen(
+              isUstadz: true,
+            );
           },
         ), (route) => false);
         break;

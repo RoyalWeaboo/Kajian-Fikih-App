@@ -6,25 +6,56 @@ class DashboardCategoryItem extends StatelessWidget {
   final String backgroundImage;
   final String title;
   final String description;
-  const DashboardCategoryItem(
-      {super.key,
-      required this.backgroundImage,
-      required this.title,
-      required this.description});
+  final bool? isAssetImage;
+  const DashboardCategoryItem({
+    super.key,
+    required this.backgroundImage,
+    required this.title,
+    required this.description,
+    this.isAssetImage,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Stack(
         children: [
-          Image.asset(
-            backgroundImage,
-          ),
+          isAssetImage != null
+              ? isAssetImage!
+                  ? Image.asset(
+                      backgroundImage,
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: backgroundImage != ""
+                          ? Container(
+                              decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(backgroundImage),
+                                fit: BoxFit.cover,
+                              ),
+                            ))
+                          : Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 64),
+                                child: Image.asset(
+                                  "assets/no_image_icon.png",
+                                  color: Colors.black,
+                                  height: 32,
+                                ),
+                              ),
+                            ),
+                    )
+              : Image.asset(
+                  backgroundImage,
+                ),
           Positioned(
             bottom: 0,
+            left: 0,
+            right: 0,
             child: Image.asset(
               "assets/category_shadow.png",
-              width: 138,
+              width: MediaQuery.of(context).size.width * 0.445,
             ),
           ),
           Positioned(
