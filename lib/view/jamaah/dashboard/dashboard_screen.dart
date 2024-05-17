@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kajian_fikih/model/offline_event.dart';
 import 'package:kajian_fikih/utils/animations/slide_left.dart';
 import 'package:kajian_fikih/utils/constants/color.dart';
+import 'package:kajian_fikih/utils/preferences/preferences_utils.dart';
 import 'package:kajian_fikih/utils/widgets/bottom_navbar.dart';
 import 'package:kajian_fikih/view/jamaah/dashboard/category_item.dart';
 import 'package:kajian_fikih/view/jamaah/explore_category/explore_category_screen.dart';
@@ -23,6 +24,8 @@ class JamaahDashboardScreen extends StatefulWidget {
 }
 
 class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
+  late PreferencesUtils preferencesUtils;
+
   @override
   void initState() {
     super.initState();
@@ -217,8 +220,16 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
                   BlocBuilder<UserDetailCubit, UserDetailState>(
                     builder: (BuildContext context, UserDetailState userState) {
                       if (userState is UserDetailSuccessState) {
-                        String currentUserLocation =
-                            userState.userData.location;
+                        String currentUserLocation = "";
+
+                        if (userState.userData.location == "" ||
+                            userState.userData.location.isEmpty) {
+                          //if user is google logged in user (no data in firestore yet)
+                          currentUserLocation = "Semarang";
+                        } else {
+                          currentUserLocation = userState.userData.location;
+                        }
+
                         List<String> locations = [
                           "Semarang",
                           "Jepara",

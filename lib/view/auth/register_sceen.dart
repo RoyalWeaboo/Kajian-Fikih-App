@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kajian_fikih/model/user_detail.dart';
 import 'package:kajian_fikih/utils/animations/slide_left.dart';
 import 'package:kajian_fikih/utils/constants/color.dart';
 import 'package:kajian_fikih/utils/constants/location.dart';
@@ -77,7 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           }
           if (state is RegisterSuccessState) {
             AnimatedSnackBar.material(
-              "Selamat Datang ${state.userDetail.username} !",
+              "Registrasi berhasil, Selamat Datang ${state.userDetail.username} !",
               type: AnimatedSnackBarType.info,
               snackBarStrategy: RemoveSnackBarStrategy(),
             ).show(context);
@@ -625,7 +626,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                               context,
                                                               SlideLeftAnimation(
                                                                 page:
-                                                                    const QuestionScreen(),
+                                                                    QuestionScreen(
+                                                                  registrationDetail:
+                                                                      UserDetail(
+                                                                    uid: "",
+                                                                    username:
+                                                                        _usernameController
+                                                                            .text,
+                                                                    phone:
+                                                                        _phoneController
+                                                                            .text,
+                                                                    email:
+                                                                        _emailController
+                                                                            .text,
+                                                                    location: value
+                                                                        .location
+                                                                        .toString()
+                                                                        .split(
+                                                                            '.')
+                                                                        .last,
+                                                                    profilePictureUrl:
+                                                                        "",
+                                                                    role:
+                                                                        "ustadz",
+                                                                  ),
+                                                                  password:
+                                                                      _passwordController
+                                                                          .text,
+                                                                ),
                                                               ),
                                                             );
                                                           },

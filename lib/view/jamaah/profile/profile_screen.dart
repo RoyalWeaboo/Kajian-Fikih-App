@@ -127,8 +127,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Positioned(
                             top: 22,
                             child: state.userDetail.profilePictureUrl != ""
-                                ? Image.network(
-                                    state.userDetail.profilePictureUrl,
+                                ? SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.transparent,
+                                      backgroundImage: NetworkImage(
+                                        state.userDetail.profilePictureUrl,
+                                      ),
+                                    ),
                                   )
                                 : Image.asset(
                                     "assets/profile_image_placeholder.jpg",
@@ -257,7 +264,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             );
                           } else {
-                            return const Text("Tidak ada Riwayat");
+                            return const SizedBox(
+                                height: 300,
+                                child: const Text("Belum ada Riwayat"));
                           }
                         } else {
                           return const SizedBox(

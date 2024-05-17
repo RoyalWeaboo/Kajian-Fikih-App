@@ -18,15 +18,16 @@ import 'package:kajian_fikih/viewmodel/notification/notification_cubit.dart';
 import 'package:kajian_fikih/viewmodel/post/post_cubit.dart';
 import 'package:kajian_fikih/viewmodel/profile_jamaah/profile_cubit.dart';
 import 'package:kajian_fikih/viewmodel/profile_ustadz/profile_ustadz_cubit.dart';
+import 'package:kajian_fikih/viewmodel/question/question_cubit.dart';
 import 'package:kajian_fikih/viewmodel/question_provider.dart';
 import 'package:kajian_fikih/viewmodel/post_utils/save_post/save_post_cubit.dart';
 import 'package:kajian_fikih/viewmodel/saved_post/saved_post_cubit.dart';
 import 'package:kajian_fikih/viewmodel/security/security_cubit.dart';
-import 'package:kajian_fikih/viewmodel/test_viewmodel.dart/test_cubit.dart';
 import 'package:kajian_fikih/viewmodel/user_detail/user_detail_cubit.dart';
 import 'package:provider/provider.dart';
 
 // import 'package:kajian_fikih/view/test_view.dart';
+// import 'package:kajian_fikih/viewmodel/test_viewmodel.dart/test_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -118,9 +119,15 @@ void main() async {
         ),
         BlocProvider(
           create: (context) {
-            return TestViewModelCubit();
+            return QuestionCubit();
           },
         ),
+        //For Dev purpose
+        // BlocProvider(
+        //   create: (context) {
+        //     return TestViewModelCubit();
+        //   },
+        // ),
       ],
       child: MultiProvider(
         providers: [
@@ -154,6 +161,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const SplashScreen(),
+      //For Dev purpose
+      // home: const TestViewScreen(),
     );
   }
 }
