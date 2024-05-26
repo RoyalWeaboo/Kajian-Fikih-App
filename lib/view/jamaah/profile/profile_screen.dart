@@ -265,8 +265,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
                           } else {
                             return const SizedBox(
-                                height: 300,
-                                child: const Text("Belum ada Riwayat"));
+                                height: 100,
+                                child:
+                                    Center(child: Text("Belum ada Riwayat")));
                           }
                         } else {
                           return const SizedBox(

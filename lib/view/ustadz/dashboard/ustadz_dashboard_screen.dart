@@ -540,428 +540,414 @@ class _UstadzDashboardScreenState extends State<UstadzDashboardScreen> {
                                           ),
                                         ],
                                       ),
-                                      body: Expanded(
-                                        child: TabBarView(
-                                          children: [
-                                            //TAB 1, Semua
-                                            (state.ustadzProfileDetail
-                                                            ?.offlineEvents ??
-                                                        [])
-                                                    .isNotEmpty
-                                                ? GridView.builder(
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    gridDelegate:
-                                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 2,
-                                                      mainAxisExtent: 224,
-                                                    ),
-                                                    shrinkWrap: true,
-                                                    itemCount: (state
-                                                                .ustadzProfileDetail
-                                                                ?.offlineEvents ??
-                                                            [])
-                                                        .length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      final listData = (state
+                                      body: TabBarView(
+                                        children: [
+                                          //TAB 1, Semua
+                                          (state.ustadzProfileDetail
+                                                          ?.offlineEvents ??
+                                                      [])
+                                                  .isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount: (state
                                                               .ustadzProfileDetail
                                                               ?.offlineEvents ??
-                                                          [])[index];
-                                                      return InkWell(
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            SlideLeftAnimation(
-                                                              page:
-                                                                  OfflineEventDetailScreen(
-                                                                docId: listData
-                                                                    .docId,
-                                                              ),
+                                                          [])
+                                                      .length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData = (state
+                                                            .ustadzProfileDetail
+                                                            ?.offlineEvents ??
+                                                        [])[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
                                                             ),
-                                                          );
-                                                        },
-                                                        child:
-                                                            DashboardCategoryItem(
-                                                          backgroundImage:
-                                                              listData
-                                                                  .imageUrl!,
-                                                          title: listData
-                                                              .postTitle,
-                                                          description: listData
-                                                              .postContent,
-                                                          isAssetImage: false,
-                                                        ),
-                                                      );
-                                                    },
-                                                  )
-                                                : Container(
-                                                    color: whiteColor,
-                                                    height: 300,
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: height * 0.1,
-                                                        ),
-                                                        Text(
-                                                          "Belum ada Kajian",
-                                                          style: GoogleFonts
-                                                              .outfit(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 14,
-                                                            color:
-                                                                blackTextColor,
                                                           ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.1,
+                                                      ),
+                                                      Text(
+                                                        "Belum ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                            //TAB 2, Hadist
-                                            hadist.isNotEmpty
-                                                ? GridView.builder(
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    gridDelegate:
-                                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 2,
-                                                      mainAxisExtent: 224,
-                                                    ),
-                                                    shrinkWrap: true,
-                                                    itemCount: hadist.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      final listData =
-                                                          hadist[index];
-                                                      return InkWell(
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            SlideLeftAnimation(
-                                                              page:
-                                                                  OfflineEventDetailScreen(
-                                                                docId: listData
-                                                                    .docId,
-                                                              ),
+                                                ),
+                                          //TAB 2, Hadist
+                                          hadist.isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount: hadist.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData =
+                                                        hadist[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
                                                             ),
-                                                          );
-                                                        },
-                                                        child:
-                                                            DashboardCategoryItem(
-                                                          backgroundImage:
-                                                              listData
-                                                                  .imageUrl!,
-                                                          title: listData
-                                                              .postTitle,
-                                                          description: listData
-                                                              .postContent,
-                                                          isAssetImage: false,
-                                                        ),
-                                                      );
-                                                    },
-                                                  )
-                                                : Container(
-                                                    color: whiteColor,
-                                                    height: 300,
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: height * 0.1,
-                                                        ),
-                                                        Text(
-                                                          "Belum ada Kajian",
-                                                          style: GoogleFonts
-                                                              .outfit(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 14,
-                                                            color:
-                                                                blackTextColor,
                                                           ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.1,
+                                                      ),
+                                                      Text(
+                                                        "Belum ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                            //TAB 3, Sholat
-                                            sholat.isNotEmpty
-                                                ? GridView.builder(
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    gridDelegate:
-                                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 2,
-                                                      mainAxisExtent: 224,
-                                                    ),
-                                                    shrinkWrap: true,
-                                                    itemCount: sholat.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      final listData =
-                                                          sholat[index];
-                                                      return InkWell(
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            SlideLeftAnimation(
-                                                              page:
-                                                                  OfflineEventDetailScreen(
-                                                                docId: listData
-                                                                    .docId,
-                                                              ),
+                                                ),
+                                          //TAB 3, Sholat
+                                          sholat.isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount: sholat.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData =
+                                                        sholat[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
                                                             ),
-                                                          );
-                                                        },
-                                                        child:
-                                                            DashboardCategoryItem(
-                                                          backgroundImage:
-                                                              listData
-                                                                  .imageUrl!,
-                                                          title: listData
-                                                              .postTitle,
-                                                          description: listData
-                                                              .postContent,
-                                                          isAssetImage: false,
-                                                        ),
-                                                      );
-                                                    },
-                                                  )
-                                                : Container(
-                                                    color: whiteColor,
-                                                    height: 300,
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: height * 0.1,
-                                                        ),
-                                                        Text(
-                                                          "Belum ada Kajian",
-                                                          style: GoogleFonts
-                                                              .outfit(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 14,
-                                                            color:
-                                                                blackTextColor,
                                                           ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.1,
+                                                      ),
+                                                      Text(
+                                                        "Belum ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                            //TAB 4, Zakat
-                                            zakat.isNotEmpty
-                                                ? GridView.builder(
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    gridDelegate:
-                                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 2,
-                                                      mainAxisExtent: 224,
-                                                    ),
-                                                    shrinkWrap: true,
-                                                    itemCount: zakat.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      final listData =
-                                                          zakat[index];
-                                                      return InkWell(
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            SlideLeftAnimation(
-                                                              page:
-                                                                  OfflineEventDetailScreen(
-                                                                docId: listData
-                                                                    .docId,
-                                                              ),
+                                                ),
+                                          //TAB 4, Zakat
+                                          zakat.isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount: zakat.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData =
+                                                        zakat[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
                                                             ),
-                                                          );
-                                                        },
-                                                        child:
-                                                            DashboardCategoryItem(
-                                                          backgroundImage:
-                                                              listData
-                                                                  .imageUrl!,
-                                                          title: listData
-                                                              .postTitle,
-                                                          description: listData
-                                                              .postContent,
-                                                          isAssetImage: false,
-                                                        ),
-                                                      );
-                                                    },
-                                                  )
-                                                : Container(
-                                                    color: whiteColor,
-                                                    height: 300,
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: height * 0.1,
-                                                        ),
-                                                        Text(
-                                                          "Belum ada Kajian",
-                                                          style: GoogleFonts
-                                                              .outfit(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 14,
-                                                            color:
-                                                                blackTextColor,
                                                           ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.1,
+                                                      ),
+                                                      Text(
+                                                        "Belum ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                            //TAB 5, Al-Qur'an
-                                            quran.isNotEmpty
-                                                ? GridView.builder(
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    gridDelegate:
-                                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 2,
-                                                      mainAxisExtent: 224,
-                                                    ),
-                                                    shrinkWrap: true,
-                                                    itemCount: quran.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      final listData =
-                                                          quran[index];
-                                                      return InkWell(
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            SlideLeftAnimation(
-                                                              page:
-                                                                  OfflineEventDetailScreen(
-                                                                docId: listData
-                                                                    .docId,
-                                                              ),
+                                                ),
+                                          //TAB 5, Al-Qur'an
+                                          quran.isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount: quran.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData =
+                                                        quran[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
                                                             ),
-                                                          );
-                                                        },
-                                                        child:
-                                                            DashboardCategoryItem(
-                                                          backgroundImage:
-                                                              listData
-                                                                  .imageUrl!,
-                                                          title: listData
-                                                              .postTitle,
-                                                          description: listData
-                                                              .postContent,
-                                                          isAssetImage: false,
-                                                        ),
-                                                      );
-                                                    },
-                                                  )
-                                                : Container(
-                                                    color: whiteColor,
-                                                    height: 300,
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: height * 0.1,
-                                                        ),
-                                                        Text(
-                                                          "Belum ada Kajian",
-                                                          style: GoogleFonts
-                                                              .outfit(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 14,
-                                                            color:
-                                                                blackTextColor,
                                                           ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.1,
+                                                      ),
+                                                      Text(
+                                                        "Belum ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                            //TAB 6, Puasa
-                                            puasa.isNotEmpty
-                                                ? GridView.builder(
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    gridDelegate:
-                                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 2,
-                                                      mainAxisExtent: 224,
-                                                    ),
-                                                    shrinkWrap: true,
-                                                    itemCount: puasa.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      final listData =
-                                                          puasa[index];
-                                                      return InkWell(
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                            context,
-                                                            SlideLeftAnimation(
-                                                              page:
-                                                                  OfflineEventDetailScreen(
-                                                                docId: listData
-                                                                    .docId,
-                                                              ),
+                                                ),
+                                          //TAB 6, Puasa
+                                          puasa.isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount: puasa.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData =
+                                                        puasa[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
                                                             ),
-                                                          );
-                                                        },
-                                                        child:
-                                                            DashboardCategoryItem(
-                                                          backgroundImage:
-                                                              listData
-                                                                  .imageUrl!,
-                                                          title: listData
-                                                              .postTitle,
-                                                          description: listData
-                                                              .postContent,
-                                                          isAssetImage: false,
-                                                        ),
-                                                      );
-                                                    },
-                                                  )
-                                                : Container(
-                                                    color: whiteColor,
-                                                    height: 300,
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: height * 0.1,
-                                                        ),
-                                                        Text(
-                                                          "Belum ada Kajian",
-                                                          style: GoogleFonts
-                                                              .outfit(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 14,
-                                                            color:
-                                                                blackTextColor,
                                                           ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.1,
+                                                      ),
+                                                      Text(
+                                                        "Belum ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                          ],
-                                        ),
+                                                ),
+                                        ],
                                       ),
                                     );
                                   } else {
