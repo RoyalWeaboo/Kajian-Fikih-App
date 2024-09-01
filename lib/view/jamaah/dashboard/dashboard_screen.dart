@@ -29,8 +29,14 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
   @override
   void initState() {
     super.initState();
+    initPreferences();
     context.read<UserDetailCubit>().getUserDetail();
     context.read<DashboardJamaahCubit>().getOfflinePost();
+  }
+
+  Future initPreferences() async {
+    preferencesUtils = PreferencesUtils();
+    await preferencesUtils.init();
   }
 
   @override
@@ -221,15 +227,6 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
                     builder: (BuildContext context, UserDetailState userState) {
                       if (userState is UserDetailSuccessState) {
                         String currentUserLocation = "";
-
-                        if (userState.userData.location == "" ||
-                            userState.userData.location.isEmpty) {
-                          //if user is google logged in user (no data in firestore yet)
-                          currentUserLocation = "Semarang";
-                        } else {
-                          currentUserLocation = userState.userData.location;
-                        }
-
                         List<String> locations = [
                           "Semarang",
                           "Jepara",
@@ -238,6 +235,7 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
                           "Purwokerto",
                           "Solo"
                         ];
+
                         locations.remove(currentUserLocation);
 
                         return SizedBox(
@@ -361,8 +359,589 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
                                           ),
                                         ],
                                       ),
-                                      body: Expanded(
-                                        child: TabBarView(
+                                      body: TabBarView(
+                                        children: [
+                                          //TAB 1, Closest Location
+                                          closestLocation.isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount:
+                                                      closestLocation.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData =
+                                                        closestLocation[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        context
+                                                            .read<
+                                                                HistoryCubit>()
+                                                            .addHistory(
+                                                                listData);
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.15,
+                                                      ),
+                                                      Text(
+                                                        "Tidak ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                          //TAB 2, Location 1
+                                          locations1.isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount: locations1.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData =
+                                                        locations1[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        context
+                                                            .read<
+                                                                HistoryCubit>()
+                                                            .addHistory(
+                                                                listData);
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.15,
+                                                      ),
+                                                      Text(
+                                                        "Tidak ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                          //TAB 3, Location 2
+                                          locations2.isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount: locations2.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData =
+                                                        locations2[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        context
+                                                            .read<
+                                                                HistoryCubit>()
+                                                            .addHistory(
+                                                                listData);
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.15,
+                                                      ),
+                                                      Text(
+                                                        "Tidak ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                          //TAB 4, Location 3
+                                          locations3.isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount: locations3.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData =
+                                                        locations3[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        context
+                                                            .read<
+                                                                HistoryCubit>()
+                                                            .addHistory(
+                                                                listData);
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.15,
+                                                      ),
+                                                      Text(
+                                                        "Tidak ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                          //TAB 5, Location Index 4
+                                          locations4.isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount: locations4.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData =
+                                                        locations4[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        context
+                                                            .read<
+                                                                HistoryCubit>()
+                                                            .addHistory(
+                                                                listData);
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.15,
+                                                      ),
+                                                      Text(
+                                                        "Tidak ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                          //TAB 6, Location 5
+                                          locations5.isNotEmpty
+                                              ? GridView.builder(
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  gridDelegate:
+                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2,
+                                                    mainAxisExtent: 224,
+                                                  ),
+                                                  shrinkWrap: true,
+                                                  itemCount: locations5.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final listData =
+                                                        locations5[index];
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        context
+                                                            .read<
+                                                                HistoryCubit>()
+                                                            .addHistory(
+                                                                listData);
+                                                        Navigator.push(
+                                                          context,
+                                                          SlideLeftAnimation(
+                                                            page:
+                                                                OfflineEventDetailScreen(
+                                                              docId: listData
+                                                                  .docId,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child:
+                                                          DashboardCategoryItem(
+                                                        backgroundImage:
+                                                            listData.imageUrl!,
+                                                        title:
+                                                            listData.postTitle,
+                                                        description: listData
+                                                            .postContent,
+                                                        isAssetImage: false,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : Container(
+                                                  color: whiteColor,
+                                                  height: 300,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * 0.15,
+                                                      ),
+                                                      Text(
+                                                        "Tidak ada Kajian",
+                                                        style:
+                                                            GoogleFonts.outfit(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: blackTextColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                        ],
+                                      ),
+                                    );
+                                  } else {
+                                    return const SizedBox();
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      if (userState is UserDetailErrorState) {
+                        //if user logged in with google, user data will not yet available except
+                        //if user updated profile data, so to handle that, this condition is used
+                        final googleLoginStatus = preferencesUtils
+                                .getPreferencesBool("googleLogin") ??
+                            false;
+                        if (googleLoginStatus) {
+                          String currentUserLocation =
+                              "Semarang"; //default set as semarang
+                          List<String> locations = [
+                            "Semarang",
+                            "Jepara",
+                            "Demak",
+                            "Pekalongan",
+                            "Purwokerto",
+                            "Solo"
+                          ];
+
+                          locations.remove(currentUserLocation);
+
+                          return SizedBox(
+                            width: width,
+                            height: height * 0.77,
+                            child: DefaultTabController(
+                              length: 6,
+                              child: Scaffold(
+                                body: BlocBuilder<DashboardJamaahCubit,
+                                    DashboardJamaahState>(
+                                  builder: (context, state) {
+                                    if (state is DashboardJamaahLoadingState) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                    if (state is DashboardJamaahErrorState) {
+                                      return Text(
+                                          "error : ${state.errorMessage}");
+                                    }
+                                    if (state is DashboardJamaahSuccessState) {
+                                      List<OfflineEvent> closestLocation = state
+                                          .offlineEventResponse
+                                          .where((event) =>
+                                              event.location ==
+                                              currentUserLocation)
+                                          .toList();
+                                      List<OfflineEvent> locations1 = state
+                                          .offlineEventResponse
+                                          .where((event) =>
+                                              event.location == locations[0])
+                                          .toList();
+                                      List<OfflineEvent> locations2 = state
+                                          .offlineEventResponse
+                                          .where((event) =>
+                                              event.location == locations[1])
+                                          .toList();
+                                      List<OfflineEvent> locations3 = state
+                                          .offlineEventResponse
+                                          .where((event) =>
+                                              event.location == locations[2])
+                                          .toList();
+                                      List<OfflineEvent> locations4 = state
+                                          .offlineEventResponse
+                                          .where((event) =>
+                                              event.location == locations[3])
+                                          .toList();
+                                      List<OfflineEvent> locations5 = state
+                                          .offlineEventResponse
+                                          .where((event) =>
+                                              event.location == locations[4])
+                                          .toList();
+
+                                      return Scaffold(
+                                        appBar: TabBar(
+                                          isScrollable: true,
+                                          tabAlignment: TabAlignment.start,
+                                          labelStyle: GoogleFonts.outfit(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12,
+                                          ),
+                                          dividerColor: Colors.transparent,
+                                          indicatorColor: Colors.transparent,
+                                          unselectedLabelColor: blackColor,
+                                          labelPadding:
+                                              const EdgeInsets.only(right: 12),
+                                          tabs: [
+                                            Tab(
+                                              child: Text(
+                                                currentUserLocation,
+                                                style: GoogleFonts.outfit(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                            Tab(
+                                              child: Text(
+                                                locations[0],
+                                                style: GoogleFonts.outfit(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                            Tab(
+                                              child: Text(
+                                                locations[1],
+                                                style: GoogleFonts.outfit(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                            Tab(
+                                              child: Text(
+                                                locations[2],
+                                                style: GoogleFonts.outfit(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                            Tab(
+                                              child: Text(
+                                                locations[3],
+                                                style: GoogleFonts.outfit(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                            Tab(
+                                              child: Text(
+                                                locations[4],
+                                                style: GoogleFonts.outfit(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        body: TabBarView(
                                           children: [
                                             //TAB 1, Closest Location
                                             closestLocation.isNotEmpty
@@ -423,7 +1002,7 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
                                                               .center,
                                                       children: [
                                                         SizedBox(
-                                                          height: height * 0.1,
+                                                          height: height * 0.15,
                                                         ),
                                                         Text(
                                                           "Tidak ada Kajian",
@@ -497,7 +1076,7 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
                                                               .center,
                                                       children: [
                                                         SizedBox(
-                                                          height: height * 0.1,
+                                                          height: height * 0.15,
                                                         ),
                                                         Text(
                                                           "Tidak ada Kajian",
@@ -571,7 +1150,7 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
                                                               .center,
                                                       children: [
                                                         SizedBox(
-                                                          height: height * 0.1,
+                                                          height: height * 0.15,
                                                         ),
                                                         Text(
                                                           "Tidak ada Kajian",
@@ -645,7 +1224,7 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
                                                               .center,
                                                       children: [
                                                         SizedBox(
-                                                          height: height * 0.1,
+                                                          height: height * 0.15,
                                                         ),
                                                         Text(
                                                           "Tidak ada Kajian",
@@ -719,7 +1298,7 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
                                                               .center,
                                                       children: [
                                                         SizedBox(
-                                                          height: height * 0.1,
+                                                          height: height * 0.15,
                                                         ),
                                                         Text(
                                                           "Tidak ada Kajian",
@@ -793,7 +1372,7 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
                                                               .center,
                                                       children: [
                                                         SizedBox(
-                                                          height: height * 0.1,
+                                                          height: height * 0.15,
                                                         ),
                                                         Text(
                                                           "Tidak ada Kajian",
@@ -811,16 +1390,31 @@ class _JamaahDashboardScreenState extends State<JamaahDashboardScreen> {
                                                   ),
                                           ],
                                         ),
-                                      ),
-                                    );
-                                  } else {
-                                    return const SizedBox();
-                                  }
-                                },
+                                      );
+                                    } else {
+                                      return const SizedBox();
+                                    }
+                                  },
+                                ),
                               ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          return Center(
+                              child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 128,
+                            ),
+                            child: Text(
+                              "error : ${userState.errorMessage}",
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: blackTextColor,
+                              ),
+                            ),
+                          ));
+                        }
                       } else {
                         return const SizedBox();
                       }
