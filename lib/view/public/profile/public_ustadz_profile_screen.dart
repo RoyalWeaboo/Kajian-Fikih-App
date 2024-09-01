@@ -1,19 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kajian_fikih/model/user_detail.dart';
 import 'package:kajian_fikih/utils/animations/slide_left.dart';
 import 'package:kajian_fikih/utils/constants/color.dart';
 import 'package:kajian_fikih/utils/preferences/preferences_utils.dart';
-import 'package:kajian_fikih/utils/widgets/bottom_navbar.dart';
 import 'package:kajian_fikih/view/jamaah/dashboard/category_item.dart';
 import 'package:kajian_fikih/view/jamaah/offline_event/offline_event_detail_screen.dart';
 import 'package:kajian_fikih/view/auth/login_screen.dart';
-import 'package:kajian_fikih/view/ustadz/profile/ustadz_edit_profile_screen.dart';
 import 'package:kajian_fikih/viewmodel/follow_user/follow_cubit.dart';
 import 'package:kajian_fikih/viewmodel/follow_user/follow_state.dart';
 import 'package:kajian_fikih/viewmodel/profile_ustadz/profile_ustadz_cubit.dart';
@@ -21,8 +17,13 @@ import 'package:kajian_fikih/viewmodel/profile_ustadz/profile_ustadz_state.dart'
 
 class PublicUstadzProfileScreen extends StatefulWidget {
   final String uid;
+  final VoidCallback onBack;
 
-  const PublicUstadzProfileScreen({super.key, required this.uid});
+  const PublicUstadzProfileScreen({
+    super.key,
+    required this.uid,
+    required this.onBack,
+  });
 
   @override
   State<PublicUstadzProfileScreen> createState() =>
@@ -55,6 +56,20 @@ class _PublicUstadzProfileScreenState extends State<PublicUstadzProfileScreen> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+            widget.onBack();
+          },
+          child: Container(
+            margin: const EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.symmetric(),
+            child: Image.asset(
+              "assets/arrow_back.png",
+            ),
+          ),
+        ),
+        leadingWidth: 32,
         centerTitle: true,
         title: Text(
           "Profil",
@@ -144,15 +159,6 @@ class _PublicUstadzProfileScreenState extends State<PublicUstadzProfileScreen> {
                           "assets/profile_decoration.png",
                           width: 130,
                           fit: BoxFit.fitWidth,
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 24,
-                          child: Image.asset(
-                            "assets/edit_profile_icon.png",
-                            width: 32,
-                            fit: BoxFit.fitWidth,
-                          ),
                         ),
                       ],
                     ),
@@ -343,8 +349,7 @@ class _PublicUstadzProfileScreenState extends State<PublicUstadzProfileScreen> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        state.userDetail.description ??
-                            "Anda belum menambahkan deskripsi apapun",
+                        state.userDetail.description ?? "",
                         style: GoogleFonts.outfit(
                           fontWeight: FontWeight.w400,
                           fontSize: 12,

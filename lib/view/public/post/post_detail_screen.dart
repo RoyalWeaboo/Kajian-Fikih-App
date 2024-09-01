@@ -188,6 +188,20 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     await context.read<FollowCubit>().getFollowStatus(widget.uid);
   }
 
+  void reinitPostDetailScreen() async {
+    //get post data
+    await context.read<PostCubit>().getPostbyId(widget.docId);
+    //get post status (check if post is already liked & saved)
+    await context
+        .read<LikePostCubit>()
+        .getPostLikeStatus(widget.uid, widget.docId);
+    await context
+        .read<SavePostCubit>()
+        .getPostSaveStatus(widget.uid, widget.docId);
+    //get follow status
+    await context.read<FollowCubit>().getFollowStatus(widget.uid);
+  }
+
   String formatTimestamp(Timestamp timestamp) {
     // Convert Timestamp to DateTime
     DateTime dateTime = timestamp.toDate();
@@ -284,6 +298,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                         SlideLeftAnimation(
                                           page: PublicUstadzProfileScreen(
                                             uid: widget.uid,
+                                            onBack: reinitPostDetailScreen,
                                           ),
                                         ),
                                       );
