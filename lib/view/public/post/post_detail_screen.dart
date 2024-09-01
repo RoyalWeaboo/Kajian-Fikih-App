@@ -15,7 +15,7 @@ import 'package:kajian_fikih/model/comment.dart';
 import 'package:kajian_fikih/utils/animations/slide_left.dart';
 import 'package:kajian_fikih/utils/constants/color.dart';
 import 'package:kajian_fikih/view/public/post/comment_item.dart';
-import 'package:kajian_fikih/view/ustadz/profile/ustadz_profile_screen.dart';
+import 'package:kajian_fikih/view/public/profile/public_ustadz_profile_screen.dart';
 import 'package:kajian_fikih/viewmodel/follow_user/follow_cubit.dart';
 import 'package:kajian_fikih/viewmodel/follow_user/follow_state.dart';
 import 'package:kajian_fikih/viewmodel/post/post_cubit.dart';
@@ -282,8 +282,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                                       Navigator.push(
                                         context,
                                         SlideLeftAnimation(
-                                          page: const UstadzProfileScreen(
-                                            isUstadz: false,
+                                          page: PublicUstadzProfileScreen(
+                                            uid: widget.uid,
                                           ),
                                         ),
                                       );

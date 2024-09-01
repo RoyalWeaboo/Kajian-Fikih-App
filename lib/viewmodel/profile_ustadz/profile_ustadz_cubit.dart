@@ -60,6 +60,53 @@ class ProfileUstadzCubit extends Cubit<ProfileUstadzState> {
     }
   }
 
+  Future getProfileDetailByUserId(String uid) async {
+    emit(ProfileUstadzLoadingState());
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      var collection = FirebaseFirestore.instance.collection("user");
+      try {
+        final offlineEventCollection =
+            await collection.doc(uid).collection("events").get();
+
+        await collection.doc(uid).get().then(
+          (DocumentSnapshot querySnapshot) {
+            if (querySnapshot.exists && querySnapshot.data() != null) {
+              UserDetail userData = UserDetail.fromFirestore(
+                  querySnapshot.data() as Map<String, dynamic>);
+
+              //get kajian
+              final List<OfflineEvent> offlineEvents =
+                  offlineEventCollection.docs.map((doc) {
+                final data = doc.data();
+                return OfflineEvent.fromFirestore(data);
+              }).toList();
+
+              emit(
+                ProfileUstadzSuccessState(
+                  userDetail: userData,
+                  ustadzProfileDetail: UstadzProfileDetail(
+                    uid: userData.uid,
+                    kajianCount: offlineEventCollection.size,
+                    followerCount: userData.followerCount ?? 0,
+                    offlineEvents: offlineEvents,
+                  ),
+                ),
+              );
+            }
+          },
+          onError: (e) => emit(
+            ProfileUstadzErrorState(e.toString()),
+          ),
+        );
+      } catch (e) {
+        emit(ProfileUstadzErrorState(e.toString()));
+      }
+    } else {
+      emit(const ProfileUstadzErrorState("Invalid User"));
+    }
+  }
+
   Future updateProfileDetail(
     String username,
     String email,
