@@ -123,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 24,
                   ),
                   Text(
-                    "Lorem ipsum dolor sit amet consectetur. Risus placerat dolor consectetur volutpat turpis. Hac adipiscing facilisis lacinia faucibus vitae enim lectus tristique.",
+                    "Aplikasi Kajian Fiqih: Pahami dan dalami ilmu fiqih dengan artikel, pertanyaan & jawaban, dan diskusi interaktif.",
                     style: GoogleFonts.outfit(
                       fontSize: 14,
                       color: whiteColor,
