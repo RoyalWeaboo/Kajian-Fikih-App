@@ -196,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 24,
                         ),
                         Text(
-                          "Lorem ipsum dolor sit amet consectetur. Risus placerat dolor consectetur volutpat turpis. Hac adipiscing facilisis lacinia faucibus vitae enim lectus tristique. Egestas sit elit ac aliquam fringilla ac mattis bibendum. Ipsum mi nec sed felis mauris purus augue tincidunt. ",
+                          "Aplikasi Kajian Fiqih: Pahami dan dalami ilmu fiqih dengan artikel, pertanyaan & jawaban, dan diskusi interaktif.",
                           style: GoogleFonts.outfit(
                             fontSize: 14,
                             color: whiteColor,
